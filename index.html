@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohan K Rajoli - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="custom-cursor"></div>
+    <div id="background-animation"></div>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <svg class="logo-svg" viewBox="0 0 200 60" width="120" height="60">
+                <!-- R -->
+                <path class="logo-letter" d="M20,10 L20,50 M20,10 L40,10 C45,10 50,15 50,20 C50,25 45,30 40,30 L20,30 L40,50" 
+                      stroke-width="4" fill="none"/>
+                <!-- K -->
+                <path class="logo-letter" d="M70,10 L70,50 M70,30 L90,10 M70,30 L90,50" 
+                      stroke-width="4" fill="none"/>
+                <!-- R -->
+                <path class="logo-letter" d="M110,10 L110,50 M110,10 L130,10 C135,10 140,15 140,20 C140,25 135,30 130,30 L110,30 L130,50" 
+                      stroke-width="4" fill="none"/>
+            </svg>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="nav-item">Home</a>
+            <a href="#education" class="nav-item">Education</a>
+            <a href="#projects" class="nav-item">Projects</a>
+            <a href="#certificates" class="nav-item">Certificates</a>
+            <a href="#contact" class="nav-item">Contact</a>
+        </div>
+    </nav>
+
+    <div class="profile-settings" id="profileSettings">
+        <div class="settings-content">
+            <h2>Profile Settings</h2>
+            <div class="settings-form">
+                <div class="profile-image-upload">
+                    <img src="default-avatar.png" alt="Profile" id="settingsProfileImage">
+                    <input type="file" id="profileImageInput" accept="image/*">
+                    <button class="upload-btn">Change Photo</button>
+                </div>
+                <div class="settings-fields">
+                    <input type="text" placeholder="Name" id="profileName">
+                    <input type="email" placeholder="Email" id="profileEmail">
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="greeting">Hello, I'm</p>
+                    <h1 class="title">Software Engineer & <br>Web Developer</h1>
+                    <p class="description">
+                        I'm a passionate software engineer specializing in creating elegant, user-centered web applications with clean, efficient code.
+                    </p>
+                    <p class="sub-description">
+                        With a strong foundation in computer science fundamentals and modern development practices, I build scalable solutions that solve real-world problems.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="#projects" class="btn primary-btn">View Projects</a>
+                        <a href="#" class="btn secondary-btn">Download Resume</a>
+                        <a href="#contact" class="btn outline-btn">Contact Me</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="section-title">Education</h2>
+            <div class="education-timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Present - 5th Semester</div>
+                        <h3 class="institution">PES INSTITUTE OF TECHNOLOGY AND MANAGEMENT</h3>
+                        <p class="location">Shivamogga</p>
+                        <p class="grade">4TH SEMESTER GPA: 7</p>
+                        <div class="timeline-dot"></div>
+                    </div>
+                </div>
+
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2022</div>
+                        <h3 class="institution">GOVT DRM PU COLLEGE</h3>
+                        <p class="location">Harihar, Davangere</p>
+                        <p class="grade">Percentage: 55.5%</p>
+                        <div class="timeline-dot"></div>
+                    </div>
+                </div>
+
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020</div>
+                        <h3 class="institution">MKET'S L K ENG MED SCHOOL</h3>
+                        <p class="location">Harihar, Davangere</p>
+                        <p class="grade">Percentage: 63%</p>
+                        <div class="timeline-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">Bank Management System</h3>
+                    <p class="project-description">
+                        A comprehensive banking solution that manages customer accounts, transactions, and banking operations. Key features include:
+                    </p>
+                    <ul class="project-features">
+                        <li>User authentication and role-based access control</li>
+                        <li>Account creation and management (Savings/Current)</li>
+                        <li>Deposit and withdrawal transactions</li>
+                        <li>Fund transfers between accounts</li>
+                        <li>Transaction history and statement generation</li>
+                        <li>Balance inquiry and account details</li>
+                    </ul>
+                    <div class="project-implementation">
+                        <p>Implementation Details:</p>
+                        <ul>
+                            <li>Frontend: HTML, CSS for user interface</li>
+                            <li>Backend: PHP for server-side logic</li>
+                            <li>Database: MySQL for data storage</li>
+                            <li>Server: XAMPP for local development</li>
+                        </ul>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">XAMPP</span>
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                    </div>
+                </div>
+                <!-- Add more project cards as needed -->
+            </div>
+        </section>
+
+        <section id="certificates">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certification-item">
+                <h3 class="institution">Code Craft: Mastering Competitive Programming for the IT Arena</h3>
+                <p class="duration">From 4th July to 6th July 2024</p>
+                <p class="course">PES INSTITUTE OF TECHNOLOGY AND MANAGEMENT, Shivamogga</p>
+            </div>
+            <div class="certification-item">
+                <h3 class="institution">Enterprise App Development with Java EE</h3>
+                <p class="duration">2nd February 2024 to 4th February 2024</p>
+                <p class="course">PESITM, Shivamogga in Association with Pratotech Solutions LLP</p>
+            </div>
+            <div class="certification-item">
+                <h3 class="institution">Design Thinking</h3>
+                <p class="duration">On July 1st 2024</p>
+                <p class="course">INFOSYS, SPRINGBOARD</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-text">
+                    <h3>If you wish to contact me,</h3>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm" action="https://formsubmit.co/rohankrajoli@gmail.com" method="POST">
+                        <div class="form-row">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="btn primary-btn">Send Message</button>
+                        <!-- Hidden FormSubmit.co fields -->
+                        <input type="hidden" name="_subject" value="New contact from Portfolio">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_next" value="https://rohankrajoli.github.io/thank-you">
+                    </form>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/rohan-rajoli-1237a32a5/" class="social-link" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/rohankrajoli" class="social-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:rohankrajoli@gmail.com" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© Rohan K Rajoli. All Rights Reserved.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="background.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
