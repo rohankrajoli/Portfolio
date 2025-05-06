@@ -1,6 +1,7 @@
 // Custom cursor
 document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.querySelector('.custom-cursor');
+    const loadingScreen = document.getElementById('loadingScreen');
     
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
@@ -13,6 +14,42 @@ document.addEventListener('DOMContentLoaded', () => {
             cursor.classList.remove('click');
         }, 300);
     });
+    
+    // Loading dots animation
+    if (loadingScreen) {
+        const dots = document.querySelectorAll('.dot');
+        let currentDot = 0;
+        
+        // Function to animate dots in sequence
+        const animateDots = () => {
+            // Reset all dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Activate current dot
+            dots[currentDot].classList.add('active');
+            
+            // Move to next dot, loop back to first if needed
+            currentDot = (currentDot + 1) % dots.length;
+            
+            // Continue animation while loading screen is visible
+            if (loadingScreen.style.display !== 'none') {
+                setTimeout(animateDots, 500); // Change dot every 500ms
+            }
+        };
+        
+        // Start animation
+        animateDots();
+        
+        // Simplified loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 800);
+            }, 1500); // 1.5 seconds load time
+        });
+    }
     
     // Add hover effect on interactive elements (ensuring logo is excluded)
     const interactiveElements = document.querySelectorAll('a:not(.logo), button:not(.logo), .btn:not(.logo), .nav-item:not(.logo)');
@@ -68,62 +105,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    // Local storage for profile settings
-    const profileSettings = document.getElementById('profileSettings');
-    const profilePic = document.querySelector('.profile-pic');
-    const saveBtn = document.querySelector('.save-btn');
-    const profileImageInput = document.getElementById('profileImageInput');
-    const uploadBtn = document.querySelector('.upload-btn');
-    const settingsProfileImage = document.getElementById('settingsProfileImage');
-    const profileName = document.getElementById('profileName');
-    const profileEmail = document.getElementById('profileEmail');
-
-    // Load profile data from localStorage if it exists
-    if (localStorage.getItem('profileData')) {
-        const profileData = JSON.parse(localStorage.getItem('profileData'));
-        
-        if (profileData.name) profileName.value = profileData.name;
-        if (profileData.email) profileEmail.value = profileData.email;
-        if (profileData.image) settingsProfileImage.src = profileData.image;
-    }
-
-    // Profile settings toggle
-    if (profilePic) {
-        profilePic.addEventListener('click', () => {
-            profileSettings.classList.toggle('active');
-        });
-    }
-
-    // Save settings
-    if (saveBtn) {
-        saveBtn.addEventListener('click', () => {
-            const profileData = {
-                name: profileName.value,
-                email: profileEmail.value,
-                image: settingsProfileImage.src
-            };
-            
-            localStorage.setItem('profileData', JSON.stringify(profileData));
-            profileSettings.classList.remove('active');
-        });
-    }
-
-    // Image upload
-    if (uploadBtn && profileImageInput) {
-        uploadBtn.addEventListener('click', () => {
-            profileImageInput.click();
-        });
-        
-        profileImageInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    settingsProfileImage.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
 }); 
