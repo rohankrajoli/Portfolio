@@ -7,8 +7,43 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- SVG Filters for Special Effects -->
+    <svg width="0" height="0" style="position: absolute;">
+        <filter id="energyFilter" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="glow" />
+            <feBlend in="SourceGraphic" in2="glow" mode="screen" />
+        </filter>
+    </svg>
 </head>
 <body>
+    <!-- Simplified Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-container">
+            <div class="loading-circle">
+                <div class="logo-wrapper">
+                    <svg class="logo-svg loading-logo" viewBox="0 0 200 60" width="110" height="55">
+                        <!-- R -->
+                        <path class="logo-letter loading-letter" d="M20,10 L20,50 M20,10 L40,10 C45,10 50,15 50,20 C50,25 45,30 40,30 L20,30 L40,50" 
+                              stroke-width="4" fill="none"/>
+                        <!-- K -->
+                        <path class="logo-letter loading-letter" d="M70,10 L70,50 M70,30 L90,10 M70,30 L90,50" 
+                              stroke-width="4" fill="none"/>
+                        <!-- R -->
+                        <path class="logo-letter loading-letter" d="M110,10 L110,50 M110,10 L130,10 C135,10 140,15 140,20 C140,25 135,30 130,30 L110,30 L130,50" 
+                              stroke-width="4" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="loading-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+
     <div class="custom-cursor"></div>
     <div id="background-animation"></div>
     
@@ -35,24 +70,6 @@
         </div>
     </nav>
 
-    <div class="profile-settings" id="profileSettings">
-        <div class="settings-content">
-            <h2>Profile Settings</h2>
-            <div class="settings-form">
-                <div class="profile-image-upload">
-                    <img src="default-avatar.png" alt="Profile" id="settingsProfileImage">
-                    <input type="file" id="profileImageInput" accept="image/*">
-                    <button class="upload-btn">Change Photo</button>
-                </div>
-                <div class="settings-fields">
-                    <input type="text" placeholder="Name" id="profileName">
-                    <input type="email" placeholder="Email" id="profileEmail">
-                    <button class="save-btn">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <main>
         <section id="home" class="hero">
             <div class="hero-content">
@@ -67,7 +84,7 @@
                     </p>
                     <div class="cta-buttons">
                         <a href="#projects" class="btn primary-btn">View Projects</a>
-                        <a href="#" class="btn secondary-btn">Download Resume</a>
+                        <a href="D:\resume\rohan resume.pdf" class="btn secondary-btn">Download Resume</a>
                         <a href="#contact" class="btn outline-btn">Contact Me</a>
                     </div>
                 </div>
@@ -183,7 +200,7 @@
                         <input type="hidden" name="_subject" value="New contact from Portfolio">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="_next" value="https://rohankrajoli.github.io/thank-you">
+                        <input type="hidden" name="_next" value="https://rohankrajoli.github.io/Portfolio/">
                     </form>
                 </div>
                 <div class="social-links">
