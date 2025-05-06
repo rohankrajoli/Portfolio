@@ -15,6 +15,15 @@
     --highlight-color: #c8b6ff;
 }
 
+/* SVG Filter definition for energy effect */
+@supports (filter: url('#energyFilter')) {
+    @keyframes energyPulse {
+        0% { filter: url('#energyFilter') brightness(1); }
+        50% { filter: url('#energyFilter') brightness(1.3); }
+        100% { filter: url('#energyFilter') brightness(1); }
+    }
+}
+
 body {
     background-color: var(--background-color);
     color: var(--text-color);
@@ -40,14 +49,21 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 2rem;
-    background: rgba(26, 26, 46, 0.85);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(160, 149, 233, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(26, 26, 46, 0.3); /* Very transparent background */
+    box-shadow: none;
+    border-bottom: 1px solid rgba(160, 149, 233, 0.15);
+    backdrop-filter: blur(10px); /* Increased blur for better visibility */
+    -webkit-backdrop-filter: blur(10px);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
+    transition: background 0.3s ease;
+}
+
+/* Slight background on hover to improve visibility */
+.navbar:hover {
+    background: rgba(26, 26, 46, 0.5);
 }
 
 .logo {
@@ -85,7 +101,7 @@ body {
     stroke-dasharray: 200;
     stroke-dashoffset: 200;
     animation: drawLetter 1.5s ease forwards;
-    filter: url(#energyFilter);
+    filter: brightness(1);
 }
 
 /* Remove hover animation but keep the logo letters visible */
@@ -93,7 +109,7 @@ body {
     animation: none;
     stroke-width: 2;
     transform: none;
-    filter: url(#energyFilter);
+    filter: brightness(1);
 }
 
 .logo::after {
@@ -130,20 +146,23 @@ body {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
     opacity: 0.8;
     mix-blend-mode: screen;
+    transform: translate(-50%, -50%);
+    left: 0;
+    top: 0;
 }
 
 .custom-cursor.hover {
-    transform: scale(1.5);
+    transform: translate(-50%, -50%) scale(1.5);
     background-color: rgba(160, 149, 233, 0.2);
     border-color: var(--lightning-color);
     box-shadow: 0 0 10px rgba(160, 149, 233, 0.3);
 }
 
 .custom-cursor.click {
-    transform: scale(0.8);
+    transform: translate(-50%, -50%) scale(0.8);
     opacity: 0.5;
     transition: transform 0.1s ease, opacity 0.1s ease;
 }
@@ -695,19 +714,129 @@ body {
     }
 }
 
-/* Loading screen removed */
+/* Loading Screen Styles - Simplified */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease;
+}
 
-.energy-container,
-.loading-logo,
-.loading-letter,
-.energy-particles,
-.loading-text {
-    display: none;
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.loading-circle {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(26, 26, 46, 0.6);
+    box-shadow: 0 0 40px rgba(160, 149, 233, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-circle::before {
+    content: '';
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    opacity: 0.7;
+}
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-logo {
+    display: block;
+    transform: scale(0.8);
+    opacity: 1;
+    animation: breathe 3s infinite ease-in-out;
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(0.8);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(0.85);
+        filter: brightness(1.2);
+    }
+}
+
+.loading-letter {
+    stroke: var(--primary-color);
+    stroke-width: 4;
+}
+
+.loading-dots {
+    display: flex;
+    gap: 12px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    opacity: 0.3;
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.dot.active {
+    opacity: 0.9;
+    transform: scale(1.2);
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+@keyframes glowingDots {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+        box-shadow: none;
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.2);
+        box-shadow: 0 0 15px var(--primary-color);
+    }
+}
+
+.dot:nth-child(1) {
+    animation: none;
+}
+
+.dot:nth-child(2) {
+    animation: none;
+}
+
+.dot:nth-child(3) {
+    animation: none;
 }
 
 /* Navigation styles */
 .logo-svg {
-    filter: url(#energyFilter);
+    filter: drop-shadow(0 0 10px rgba(160, 149, 233, 0.3));
 }
 
 .nav-links {
