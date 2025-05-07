@@ -519,35 +519,192 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Navbar adjustments */
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+
+    .logo-svg {
+        width: 80px;
+        height: 40px;
+    }
+
+    .nav-links {
+        gap: 0.8rem;
+    }
+
+    .nav-item {
+        font-size: 0.85rem;
+    }
+
+    /* Hero section adjustments */
     .hero {
         padding: 0 5%;
+        min-height: 90vh;
     }
 
     .hero-content {
-        margin-top: -60px; /* Smaller offset for mobile */
+        margin-top: -40px;
     }
 
     .title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
     }
 
     .description,
     .sub-description {
-        padding: 0 20px;
+        font-size: 1rem;
+        padding: 0 10px;
+        margin-bottom: 1rem;
     }
 
+    .greeting {
+        font-size: 1.2rem;
+    }
+
+    /* Project cards adjustments */
+    .projects-grid {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .project-card {
+        padding: 1.5rem;
+    }
+
+    .project-title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .project-description {
+        font-size: 0.95rem;
+    }
+
+    .project-features li {
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+    }
+
+    /* Education timeline adjustments */
+    .education-timeline {
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .timeline-content {
+        padding: 1rem;
+    }
+
+    .timeline-date {
+        font-size: 1rem;
+    }
+
+    .timeline-content .institution {
+        font-size: 1.1rem;
+    }
+
+    /* Contact section adjustments */
+    .contact-container {
+        width: 90%;
+        padding: 0 1rem;
+    }
+
+    .contact-form {
+        width: 90%;
+        max-width: 90%;
+    }
+
+    .contact-form form {
+        padding: 1.2rem;
+        gap: 1rem;
+    }
+
+    .contact-form input[type="email"] {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+
+    .contact-form button {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 250px;
+    }
+
+    /* Section title adjustments */
+    .section-title {
+        font-size: 1.8rem;
+        margin: 1.5rem 0;
+    }
+
+    /* Social links adjustments */
+    .social-links {
+        gap: 1rem;
+    }
+
+    .social-link {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    /* Certification items adjustments */
+    .certification-item {
+        padding: 1.2rem;
+        margin: 0.8rem auto;
+    }
+
+    .institution {
+        font-size: 1.1rem;
+    }
+
+    .duration, .course {
+        font-size: 0.9rem;
+    }
+
+    /* CTA buttons adjustments */
     .cta-buttons {
         flex-direction: column;
-        gap: 1rem;
-        align-items: center;
+        gap: 0.8rem;
         width: 100%;
-        padding: 0 20px;
+        padding: 0 10px;
     }
 
     .btn {
         width: 100%;
-        max-width: 300px;
-        text-align: center;
+        max-width: 250px;
+        padding: 0.7rem 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Additional adjustments for very small screens */
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .description,
+    .sub-description {
+        font-size: 0.95rem;
+    }
+
+    .nav-item {
+        font-size: 0.8rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .project-card {
+        padding: 1.2rem;
+    }
+
+    .contact-form {
+        width: 95%;
     }
 }
 
