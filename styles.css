@@ -1434,15 +1434,15 @@ html {
     padding: 1.5rem;
     margin: 1rem auto;
     max-width: 800px;
-    border: 1px solid rgba(0, 255, 136, 0.1);
+    border: 1px solid  rgba(160, 149, 233, 0.3);
     transition: all 0.3s ease;
     position: relative;
 }
 
 .certification-item:hover {
     transform: translateX(10px);
-    border-color: #00ff88;
-    box-shadow: -5px 5px 15px rgba(0, 255, 136, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: -5px 5px 15px  rgba(160, 149, 233, 0.3);
 }
 
 .certificate-icon {
@@ -1538,7 +1538,7 @@ html {
     padding: 1rem 1.5rem;
     margin: 0;
     width: 40%;
-    border: 1px solid rgba(0, 255, 136, 0.1);
+    border: 1px solid  rgba(160, 149, 233, 0.3);
     transition: all 0.3s ease;
 }
 
@@ -1552,8 +1552,8 @@ html {
 
 .certification-item:hover {
     transform: translateY(-3px);
-    border-color: #00ff88;
-    box-shadow: 0 3px 10px rgba(0, 255, 136, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: 0 3px 10px rgba(160, 149, 233, 0.3);
 }
 
 .certification-item h3 {
@@ -1604,4 +1604,47 @@ html {
     .certification-item .duration {
         font-size: 0.85rem;
     }
+}
+
+/* Certificate Eye Icon Styles */
+.certificate-link {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color:var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.certificate-eye {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 5px  rgba(160, 149, 233, 0.3));
+    transition: all 0.3s ease;
+}
+
+.certificate-link:hover .certificate-eye {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 10px  rgba(160, 149, 233, 0.3));
+    animation: eyePulse 1.5s infinite;
+}
+
+@keyframes eyePulse {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px  rgba(160, 149, 233, 0.3));
+    }
+    50% {
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 15px  rgba(160, 149, 233, 0.7));
+    }
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(160, 149, 233, 0.3));
+    }
+}
+
+.certification-item {
+    position: relative;
+    padding-right: 60px;
 } 
