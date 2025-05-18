@@ -2,16 +2,24 @@ class ThunderstormBackground {
     constructor() {
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.raindrops = [];
-        this.lightning = [];
         this.particles = [];
         this.stars = [];
-        this.lastLightning = 0;
-        this.lightningInterval = 5000; // Time between lightning strikes in ms
-        this.lightningChance = 0.3; // Chance of lightning on interval
-        this.bgColor = 'rgba(25, 25, 38, 0.9)'; // Deep indigo background for lofi aesthetic
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.isScrolling = false;
+        this.scrollTimeout = null;
+        this.scrollParticles = [];
         this.gradient = null;
         this.time = 0;
+        this.maxParticles = 40; // Limit max particles
+        this.maxScrollParticles = 20; // Limit max scroll particles
+        this.isMobile = window.innerWidth <= 768; // Check for mobile device
+        
+        // Reduce limits for mobile devices
+        if (this.isMobile) {
+            this.maxParticles = 20;
+            this.maxScrollParticles = 10;
+        }
         
         this.init();
     }
@@ -19,16 +27,64 @@ class ThunderstormBackground {
     init() {
         // Set canvas size
         this.resize();
-        window.addEventListener('resize', () => this.resize());
+        window.addEventListener('resize', () => {
+            this.resize();
+            
+            // Update mobile flag and adjust particle limits
+            const wasMobile = this.isMobile;
+            this.isMobile = window.innerWidth <= 768;
+            
+            // If device type changed, update limits
+            if (wasMobile !== this.isMobile) {
+                if (this.isMobile) {
+                    this.maxParticles = 20;
+                    this.maxScrollParticles = 10;
+                } else {
+                    this.maxParticles = 40;
+                    this.maxScrollParticles = 20;
+                }
+            }
+        });
         
         // Add canvas to background
         document.getElementById('background-animation').appendChild(this.canvas);
         
-        // Create initial elements
-        this.createRaindrops(150);
-        this.createStars(100);
-        this.createParticles(50);
+        // Create initial elements - fewer on mobile
+        const starCount = this.isMobile ? 50 : 100;
+        const particleCount = this.isMobile ? 20 : 40;
+        
+        this.createStars(starCount);
+        this.createParticles(particleCount);
         this.createGradient();
+        
+        // Track mouse movement for interactive effects - less frequent on mobile
+        document.addEventListener('mousemove', (e) => {
+            this.mouseX = e.clientX;
+            this.mouseY = e.clientY;
+            
+            // Create particles on mouse move occasionally - reduced chance on mobile
+            const chance = this.isMobile ? 0.02 : 0.05;
+            if (Math.random() < chance) {
+                this.createMouseParticles(1);
+            }
+        });
+        
+        // Track scrolling for particle effects - fewer particles on mobile
+        window.addEventListener('scroll', () => {
+            this.isScrolling = true;
+            
+            // Only create scroll particles if we're under the limit
+            if (this.scrollParticles.length < this.maxScrollParticles) {
+                const count = this.isMobile ? 1 : 3;
+                this.createScrollParticles(count);
+            }
+            
+            // Reset scrolling state after timeout
+            clearTimeout(this.scrollTimeout);
+            this.scrollTimeout = setTimeout(() => {
+                this.isScrolling = false;
+            }, 100);
+        });
         
         // Start animation
         this.animate();
@@ -63,113 +119,21 @@ class ThunderstormBackground {
     }
 
     createParticles(count) {
-        for (let i = 0; i < count; i++) {
+        // Only add particles if we're under the limit
+        const availableSlots = this.maxParticles - this.particles.length;
+        const actualCount = Math.min(count, availableSlots);
+        
+        for (let i = 0; i < actualCount; i++) {
             this.particles.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                radius: Math.random() * 3 + 1,
-                color: `rgba(${Math.random() * 20 + 100}, ${Math.random() * 20 + 150}, ${Math.random() * 50 + 200}, ${Math.random() * 0.3 + 0.1})`,
-                speedX: Math.random() * 0.2 - 0.1,
-                speedY: Math.random() * 0.2 - 0.1,
+                radius: Math.random() * 2.5 + 0.5, // Slightly smaller
+                color: `rgba(${Math.random() * 20 + 100}, ${Math.random() * 20 + 150}, ${Math.random() * 50 + 200}, ${Math.random() * 0.2 + 0.1})`, // Lower opacity
+                speedX: Math.random() * 0.15 - 0.075, // Slower
+                speedY: Math.random() * 0.15 - 0.075, // Slower
                 life: Math.random() * 100 + 100
             });
         }
-    }
-
-    createRaindrops(count) {
-        for (let i = 0; i < count; i++) {
-            this.raindrops.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                length: Math.random() * 15 + 5, // Shorter for lofi style
-                speed: Math.random() * 10 + 10, // Slower for lofi style
-                thickness: Math.random() * 1.5 + 0.5,
-                opacity: Math.random() * 0.2 + 0.1 // More transparent for lofi style
-            });
-        }
-    }
-
-    createLightning() {
-        // Multiple branches of lightning
-        const mainStartX = Math.random() * this.canvas.width;
-        const mainStartY = 0;
-        
-        const mainLightning = this.generateLightningBranch(mainStartX, mainStartY, mainStartX + (Math.random() * 400 - 200), this.canvas.height * 0.7);
-        
-        // Create 2-3 branches
-        const branchCount = Math.floor(Math.random() * 2) + 2;
-        const branches = [mainLightning];
-        
-        for (let i = 0; i < branchCount; i++) {
-            // Pick a random point from the main branch to start a new branch
-            const branchPoint = Math.floor(Math.random() * (mainLightning.length - 2)) + 1;
-            const startX = mainLightning[branchPoint].x;
-            const startY = mainLightning[branchPoint].y;
-            
-            // Create branch with random endpoint
-            const endX = startX + (Math.random() * 300 - 150);
-            const endY = startY + (Math.random() * 200 + 100);
-            
-            if (endY < this.canvas.height) {
-                branches.push(this.generateLightningBranch(startX, startY, endX, endY));
-            }
-        }
-        
-        // Create extra particles at lightning contact points
-        for (let i = 0; i < 15; i++) {
-            const branchIndex = Math.floor(Math.random() * branches.length);
-            const pointIndex = Math.floor(Math.random() * branches[branchIndex].length);
-            const point = branches[branchIndex][pointIndex];
-            
-            this.particles.push({
-                x: point.x,
-                y: point.y,
-                radius: Math.random() * 4 + 2,
-                color: `rgba(${Math.random() * 20 + 180}, ${Math.random() * 20 + 200}, ${Math.random() * 20 + 230}, ${Math.random() * 0.3 + 0.6})`,
-                speedX: Math.random() * 4 - 2,
-                speedY: Math.random() * 4 - 2,
-                life: Math.random() * 30 + 20
-            });
-        }
-        
-        // Flash effect
-        this.lightningFlash();
-        
-        this.lightning.push({
-            branches: branches,
-            opacity: 1,
-            life: 0,
-            color: Math.random() > 0.7 ? 'purple' : 'normal' // Occasional purple lightning for lofi aesthetic
-        });
-    }
-
-    generateLightningBranch(startX, startY, endX, endY) {
-        const points = [{x: startX, y: startY}];
-        const segmentCount = Math.floor(Math.random() * 4) + 6;
-        const segmentLength = (endY - startY) / segmentCount;
-        
-        let currentX = startX;
-        let currentY = startY;
-        
-        for (let i = 1; i <= segmentCount; i++) {
-            // Calculate displacement based on segment distance from start (more displacement in middle)
-            const displacementFactor = Math.sin((i / segmentCount) * Math.PI);
-            const displacement = displacementFactor * (Math.random() * 80 + 30);
-            
-            currentX = currentX + (Math.random() * displacement * 2 - displacement);
-            currentY = startY + (segmentLength * i);
-            
-            points.push({x: currentX, y: currentY});
-        }
-        
-        // Add endpoint
-        points.push({x: endX, y: endY});
-        return points;
-    }
-
-    lightningFlash() {
-        // Create a flash effect that briefly illuminates the scene
-        this.flash = 1; // Full brightness
     }
 
     drawStars() {
@@ -201,95 +165,9 @@ class ThunderstormBackground {
             return false;
         });
         
-        // Add new particles occasionally
-        if (Math.random() < 0.05) {
+        // Add new particles occasionally, but respect the limit
+        if (Math.random() < 0.02 && this.particles.length < this.maxParticles) { // Reduced from 0.05
             this.createParticles(1);
-        }
-    }
-
-    drawRain() {
-        this.ctx.strokeStyle = 'rgba(150, 170, 230, 0.6)';
-        
-        this.raindrops.forEach(drop => {
-            this.ctx.beginPath();
-            this.ctx.moveTo(drop.x, drop.y);
-            this.ctx.lineTo(drop.x, drop.y + drop.length);
-            this.ctx.lineWidth = drop.thickness;
-            this.ctx.globalAlpha = drop.opacity;
-            this.ctx.stroke();
-            
-            // Move the raindrop
-            drop.y += drop.speed;
-            
-            // Reset if off screen
-            if (drop.y > this.canvas.height) {
-                drop.y = 0 - drop.length;
-                drop.x = Math.random() * this.canvas.width;
-            }
-        });
-        
-        this.ctx.globalAlpha = 1;
-    }
-
-    drawLightning() {
-        const now = Date.now();
-        
-        // Check if it's time for a lightning strike
-        if (now - this.lastLightning > this.lightningInterval) {
-            if (Math.random() < this.lightningChance) {
-                this.createLightning();
-            }
-            this.lastLightning = now;
-        }
-        
-        // Draw and update existing lightning
-        this.lightning = this.lightning.filter(bolt => {
-            bolt.life += 0.1;
-            bolt.opacity = Math.max(0, 1 - bolt.life * 2); // Fade out faster
-            
-            if (bolt.opacity > 0) {
-                // Draw each branch
-                bolt.branches.forEach(branch => {
-                    // Color based on lightning type
-                    const mainColor = bolt.color === 'purple' 
-                                  ? `rgba(180, 100, 255, ${bolt.opacity})` 
-                                  : `rgba(255, 255, 255, ${bolt.opacity})`;
-                    const glowColor = bolt.color === 'purple' 
-                                  ? `rgba(150, 70, 200, ${bolt.opacity * 0.6})` 
-                                  : `rgba(180, 225, 255, ${bolt.opacity * 0.6})`;
-                    
-                    // Main bright line
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(branch[0].x, branch[0].y);
-                    
-                    for (let i = 1; i < branch.length; i++) {
-                        this.ctx.lineTo(branch[i].x, branch[i].y);
-                    }
-                    
-                    this.ctx.strokeStyle = mainColor;
-                    this.ctx.lineWidth = 3;
-                    this.ctx.stroke();
-                    
-                    // Outer glow
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(branch[0].x, branch[0].y);
-                    
-                    for (let i = 1; i < branch.length; i++) {
-                        this.ctx.lineTo(branch[i].x, branch[i].y);
-                    }
-                    
-                    this.ctx.strokeStyle = glowColor;
-                    this.ctx.lineWidth = 8;
-                    this.ctx.stroke();
-                });
-            }
-            
-            return bolt.opacity > 0;
-        });
-        
-        // Update flash effect
-        if (this.flash > 0) {
-            this.flash -= 0.05;
         }
     }
 
@@ -297,15 +175,6 @@ class ThunderstormBackground {
         // Base dark background with gradient
         this.ctx.fillStyle = this.gradient;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // Add flash overlay if lightning is active
-        if (this.flash > 0) {
-            const flashColor = this.lightning.length > 0 && this.lightning[0].color === 'purple' 
-                            ? `rgba(120, 80, 160, ${this.flash * 0.2})` 
-                            : `rgba(120, 160, 220, ${this.flash * 0.2})`;
-            this.ctx.fillStyle = flashColor;
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        }
         
         // Add subtle vignette effect for lofi aesthetic
         const gradient = this.ctx.createRadialGradient(
@@ -317,29 +186,130 @@ class ThunderstormBackground {
         this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Add noise texture for lofi effect
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
-        for (let i = 0; i < this.canvas.width * this.canvas.height * 0.002; i++) {
+        // Add noise texture for lofi effect - even more reduced on mobile
+        const noiseDensity = this.isMobile ? 0.0005 : 0.001;
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+        for (let i = 0; i < this.canvas.width * this.canvas.height * noiseDensity; i++) {
             const x = Math.random() * this.canvas.width;
             const y = Math.random() * this.canvas.height;
-            const size = Math.random() * 1.5 + 0.5;
+            const size = Math.random() * 1 + 0.5;
             this.ctx.fillRect(x, y, size, size);
         }
     }
 
+    createMouseParticles(count) {
+        // Only add particles if we're under the limit
+        if (this.particles.length >= this.maxParticles) return;
+        
+        const availableSlots = this.maxParticles - this.particles.length;
+        const actualCount = Math.min(count, availableSlots);
+        
+        for (let i = 0; i < actualCount; i++) {
+            this.particles.push({
+                x: this.mouseX + (Math.random() * 30 - 15), // Reduced radius
+                y: this.mouseY + (Math.random() * 30 - 15), // Reduced radius
+                radius: Math.random() * 1.5 + 0.5, // Smaller
+                color: `rgba(${Math.random() * 20 + 160}, ${Math.random() * 20 + 140}, ${Math.random() * 50 + 200}, ${Math.random() * 0.3 + 0.2})`, // Lower opacity
+                speedX: Math.random() * 0.8 - 0.4, // Slower
+                speedY: Math.random() * 0.8 - 0.4, // Slower
+                life: Math.random() * 20 + 15 // Shorter life
+            });
+        }
+    }
+    
+    createScrollParticles(count) {
+        // Only add particles if we're under the limit
+        const currentLength = this.scrollParticles.length;
+        if (currentLength >= this.maxScrollParticles) return;
+        
+        const availableSlots = this.maxScrollParticles - currentLength;
+        const actualCount = Math.min(count, Math.ceil(availableSlots / 2));
+        
+        for (let i = 0; i < actualCount; i++) {
+            // Left side particles
+            if (this.scrollParticles.length < this.maxScrollParticles) {
+                this.scrollParticles.push({
+                    x: Math.random() * this.canvas.width * 0.2, // Reduced from 0.3
+                    y: Math.random() * this.canvas.height,
+                    radius: Math.random() * 2 + 0.5, // Smaller
+                    color: `rgba(${Math.random() * 20 + 160}, ${Math.random() * 20 + 140}, ${Math.random() * 50 + 200}, ${Math.random() * 0.3 + 0.1})`, // Lower opacity
+                    speedX: Math.random() * 0.7 + 0.3, // Slower
+                    speedY: Math.random() * 1.5 - 0.75, // Slower
+                    life: Math.random() * 40 + 15 // Shorter life
+                });
+            }
+            
+            // Right side particles
+            if (this.scrollParticles.length < this.maxScrollParticles) {
+                this.scrollParticles.push({
+                    x: this.canvas.width - (Math.random() * this.canvas.width * 0.2),
+                    y: Math.random() * this.canvas.height,
+                    radius: Math.random() * 2 + 0.5,
+                    color: `rgba(${Math.random() * 20 + 160}, ${Math.random() * 20 + 140}, ${Math.random() * 50 + 200}, ${Math.random() * 0.3 + 0.1})`,
+                    speedX: -(Math.random() * 0.7 + 0.3),
+                    speedY: Math.random() * 1.5 - 0.75,
+                    life: Math.random() * 40 + 15
+                });
+            }
+        }
+    }
+    
+    drawScrollParticles() {
+        // Update and draw scroll particles
+        this.scrollParticles = this.scrollParticles.filter(particle => {
+            particle.life -= 1;
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+            
+            // Fade out as they get closer to center
+            const distanceFromCenterX = Math.abs(particle.x - this.canvas.width/2) / (this.canvas.width/2);
+            const opacity = distanceFromCenterX * 0.3; // Reduced opacity
+            
+            if (particle.life > 0) {
+                this.ctx.beginPath();
+                this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                
+                // Extract RGB from color and create new color with calculated opacity
+                const rgbMatch = particle.color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+),\s*[\d.]+\)/);
+                if (rgbMatch) {
+                    const [_, r, g, b] = rgbMatch;
+                    this.ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+                } else {
+                    this.ctx.fillStyle = particle.color;
+                }
+                
+                this.ctx.fill();
+                return true;
+            }
+            return false;
+        });
+        
+        // Add new particles while scrolling, but respect limits
+        if (this.isScrolling && Math.random() < 0.1 && this.scrollParticles.length < this.maxScrollParticles) { // Reduced from 0.2
+            this.createScrollParticles(1); // Reduced from 2
+        }
+    }
+
     animate() {
+        // Slow down animation frame rate on mobile for better performance
+        if (this.isMobile) {
+            this.time += 0.005; // Half speed on mobile
+        } else {
+            this.time += 0.01;
+        }
+        
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.time += 0.01;
         
         this.drawBackground();
         this.drawStars();
-        this.drawLightning();
-        this.drawRain();
         this.drawParticles();
+        this.drawScrollParticles();
         
         requestAnimationFrame(() => this.animate());
     }
 }
 
 // Initialize the background
-new ThunderstormBackground(); 
+document.addEventListener('DOMContentLoaded', () => {
+    new ThunderstormBackground();
+});
