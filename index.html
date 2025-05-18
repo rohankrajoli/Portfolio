@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Rohan K Rajoli - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -18,30 +18,39 @@
     </svg>
 </head>
 <body>
-    <!-- Simplified Loading Screen -->
+    <!-- Simplify the loading screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-container">
             <div class="loading-circle">
-                <div class="logo-wrapper">
-                    <svg class="logo-svg loading-logo" viewBox="0 0 200 60" width="110" height="55">
-                        <!-- R -->
-                        <path class="logo-letter loading-letter" d="M20,10 L20,50 M20,10 L40,10 C45,10 50,15 50,20 C50,25 45,30 40,30 L20,30 L40,50" 
-                              stroke-width="4" fill="none"/>
-                        <!-- K -->
-                        <path class="logo-letter loading-letter" d="M70,10 L70,50 M70,30 L90,10 M70,30 L90,50" 
-                              stroke-width="4" fill="none"/>
-                        <!-- R -->
-                        <path class="logo-letter loading-letter" d="M110,10 L110,50 M110,10 L130,10 C135,10 140,15 140,20 C140,25 135,30 130,30 L110,30 L130,50" 
-                              stroke-width="4" fill="none"/>
-                    </svg>
-                </div>
+                <div class="loading-pulse"></div>
+                <div class="loading-pulse"></div>
+                <div class="loading-pulse"></div>
+                <svg class="loading-logo" viewBox="0 0 200 60" width="130" height="65">
+                    <!-- R -->
+                    <path class="loading-letter" id="loading-letter-1" d="M20,10 L20,50 M20,10 L40,10 C45,10 50,15 50,20 C50,25 45,30 40,30 L20,30 L40,50" 
+                          stroke-width="4" fill="none"/>
+                    <!-- K -->
+                    <path class="loading-letter" id="loading-letter-2" d="M70,10 L70,50 M70,30 L90,10 M70,30 L90,50" 
+                          stroke-width="4" fill="none"/>
+                    <!-- R -->
+                    <path class="loading-letter" id="loading-letter-3" d="M110,10 L110,50 M110,10 L130,10 C135,10 140,15 140,20 C140,25 135,30 130,30 L110,30 L130,50" 
+                          stroke-width="4" fill="none"/>
+                </svg>
             </div>
-            <div class="loading-dots">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+            <div class="loading-text">
+                <span>L</span>
+                <span>O</span>
+                <span>A</span>
+                <span>D</span>
+                <span>I</span>
+                <span>N</span>
+                <span>G</span>
+            </div>
+            <div class="loading-progress">
+                <div class="loading-bar"></div>
             </div>
         </div>
+        <div class="loading-particles"></div>
     </div>
 
     <div class="custom-cursor"></div>
@@ -61,17 +70,35 @@
                       stroke-width="4" fill="none"/>
             </svg>
         </div>
-        <div class="nav-links">
+        <div class="desktop-nav-links">
             <a href="#home" class="nav-item">Home</a>
             <a href="#education" class="nav-item">Education</a>
             <a href="#projects" class="nav-item">Projects</a>
             <a href="#certificates" class="nav-item">Certificates</a>
             <a href="#contact" class="nav-item">Contact</a>
         </div>
+        <button class="mobile-menu-btn" aria-label="Open navigation menu">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="nav-links" id="mobile-menu">
+            <a href="#home" class="nav-item" style="--item-order: 1;">Home</a>
+            <a href="#education" class="nav-item" style="--item-order: 2;">Education</a>
+            <a href="#projects" class="nav-item" style="--item-order: 3;">Projects</a>
+            <a href="#certificates" class="nav-item" style="--item-order: 4;">Certificates</a>
+            <a href="#contact" class="nav-item" style="--item-order: 5;">Contact</a>
+        </div>
     </nav>
 
     <main>
-        <section id="home" class="hero">
+        <section id="home" class="hero parallax-section">
+            <div class="parallax-layer layer-1" data-speed="0.2"></div>
+            <div class="parallax-layer layer-2" data-speed="0.5"></div>
+            <div class="parallax-layer layer-3" data-speed="0.8"></div>
             <div class="hero-content">
                 <div class="hero-text">
                     <p class="greeting">Hello, I'm</p>
@@ -84,7 +111,7 @@
                     </p>
                     <div class="cta-buttons">
                         <a href="#projects" class="btn primary-btn">View Projects</a>
-                        <a href="https://github.com/rohankrajoli/Portfolio/raw/main/rohan%20resume.pdf" class="btn secondary-btn">Download Resume</a>
+                        <a href="https://github.com/rohankrajoli/Portfolio/raw/main/rohan%20resume.pdf" class="btn secondary-btn" download>Download Resume</a>
                         <a href="#contact" class="btn outline-btn">Contact Me</a>
                     </div>
                 </div>
@@ -129,7 +156,7 @@
         <section id="projects">
             <h2 class="section-title">Projects</h2>
             <div class="projects-grid">
-                <div class="project-card">
+                <div class="project-card tilt-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.3">
                     <h3 class="project-title">Bank Management System</h3>
                     <p class="project-description">
                         A comprehensive banking solution that manages customer accounts, transactions, and banking operations. Key features include:
@@ -170,7 +197,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Code Craft: Competitive Programming</h3>
                         <p class="duration">PESITM Shivamogga | July 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-aspiring-software-engineer-activity-7326648205549473792-jIui?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-aspiring-software-engineer-activity-7326648205549473792-jIui?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -180,7 +207,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Enterprise App Development with Java EE</h3>
                         <p class="duration">PESITM Shivamogga | Feb 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_i-have-completed-the-3-days-student-development-activity-7161539359039500288-B_0h?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_i-have-completed-the-3-days-student-development-activity-7161539359039500288-B_0h?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -190,7 +217,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Design Thinking</h3>
                         <p class="duration">Infosys Springboard | July 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-aspiring-software-engineer-activity-7326649725711982594-_WtO?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-aspiring-software-engineer-activity-7326649725711982594-_WtO?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -200,7 +227,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Generative AI Foundations</h3>
                         <p class="duration">Infosys Springboard | Dec 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-ai-enthusiast-software-activity-7326650049164169216-9_4a?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-ai-enthusiast-software-activity-7326650049164169216-9_4a?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -210,7 +237,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Cloud Computing</h3>
                         <p class="duration">NPTEL, IIT Kharagpur | Oct 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-aspiring-cloud-developer-activity-7326650496314683393-UtOv?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_rohan-k-rajoli-aspiring-cloud-developer-activity-7326650496314683393-UtOv?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -220,7 +247,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Data Science Workshop</h3>
                         <p class="duration">PESITM Shivamogga | Oct 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_datascience-ai-studentdevelopment-activity-7326651039347081218-t8iR?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_datascience-ai-studentdevelopment-activity-7326651039347081218-t8iR?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -230,7 +257,7 @@
                     <div class="certification-item">
                         <h3 class="institution">State-Level Hackathon</h3>
                         <p class="duration">Malnad College of Engineering | Nov 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_hackathon-devops-innovation-activity-7326651558387941376-Ew_J?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_hackathon-devops-innovation-activity-7326651558387941376-Ew_J?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -240,7 +267,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Industry 4.0 & IoT Training</h3>
                         <p class="duration">Bosch Vocational Center | 2024</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_bosch-industry4abr0-iot-activity-7326653330003234816-WNoW?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_bosch-industry4abr0-iot-activity-7326653330003234816-WNoW?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -249,7 +276,7 @@
                     <div class="certification-item">
                         <h3 class="institution">Agile Scrum</h3>
                         <p class="duration">Infosys Springboard | Mar 2025</p>
-                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_agile-scrum-projectmanagement-activity-7326653661336469505-p2_G?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank">
+                        <a href="https://www.linkedin.com/posts/rohan-rajoli-1237a32a5_agile-scrum-projectmanagement-activity-7326653661336469505-p2_G?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEmfIusBB_2Poymk-w1V8QI14UIlH07XD6s" class="certificate-link" target="_blank" rel="noopener">
                             <i class="fas fa-eye certificate-eye"></i>
                         </a>
                     </div>
@@ -275,10 +302,10 @@
                     </form>
                 </div>
                 <div class="social-links">
-                    <a href="https://www.linkedin.com/in/rohan-rajoli-1237a32a5/" class="social-link" target="_blank">
+                    <a href="https://www.linkedin.com/in/rohan-rajoli-1237a32a5/" class="social-link" target="_blank" rel="noopener">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://github.com/rohankrajoli" class="social-link" target="_blank">
+                    <a href="https://github.com/rohankrajoli" class="social-link" target="_blank" rel="noopener">
                         <i class="fab fa-github"></i>
                     </a>
                     <a href="mailto:rohankrajoli@gmail.com" class="social-link">
@@ -292,6 +319,7 @@
         </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <script src="background.js"></script>
     <script src="script.js"></script>
 </body>
